@@ -1,0 +1,12 @@
+#!/bin/sh
+
+MAILADDRESS="alert@example.com"
+LOGFILE=/tmp/.mailalert.$$
+
+eval $* > $LOGFILE 2>&1
+if [ $? -ne 0 ]
+then
+  cat $LOGFILE | mail -s "Error: $*" $MAILADDRESS
+fi
+
+rm -f $LOGFILE
